@@ -1,7 +1,9 @@
 package com.coffeeshop.menu.controller;
 
 import com.coffeeshop.menu.model.Product;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
@@ -32,8 +34,11 @@ public class ProductController {
     }
 
     @RequestMapping("/addNewProduct")
-    public String addProduct(Product product) {
+    public String addProduct(@Valid Product product, BindingResult bindingResult) {
         productsList.add(product);
+        if (bindingResult.hasErrors()) {
+            return "add-new-product";
+        }
         System.out.println(productsList);
         return "redirect:/";
     }
